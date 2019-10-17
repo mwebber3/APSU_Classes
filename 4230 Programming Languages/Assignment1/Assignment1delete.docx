@@ -1,0 +1,38 @@
+CSCI 4230 – Assignment 1
+1.	Write regular expressions for the following. The alphabet in question consists of a, b, and c.
+a.	Strings that start with a followed by zero or more occurrences of b.
+Answer: “^ab*”
+// side note: I was wondering if something like this would also work? “^a(b)*$”
+b.	Strings that start with a followed by zero or more occurrences of either b or c.
+Answer: “^a(b|c)*”
+c.	Strings that start with a followed by one or more occurrences of b. 
+Answer: “^ab+” 	
+// side note: would this work? “^a(b)+$”
+d.	Strings that have an even number of characters.
+Answer: “^\d*[02468]$”
+e.	Strings that have an odd number of characters. 
+Answer: “^\d*[13579]$”
+2.	Write a regular expression for a string literal defined as follows:
+-	Starts with a “.
+-	Ends with a “.
+-	Between these two characters a string literal may contain any number of characters that are not a “ or a \. You can represent such a character with the symbol normal_char, which you do not have to define separately. 
+-	In addition, a string literal can contain any of the following escape codes: \n, \”, and \\. 
+-	Examples include “”, “Hello”, and “, Hello, World! \n”.
+
+Answer: “(normal_char|\n|\|\\)*”
+
+3.	Write a regular expression for an identifier defined as follows: 
+-	Must start with a letter or a _.
+-	After the first character, there may be any number of digits, letters, or underscores.
+-	Use [0-9] to represent a single digit and [a-zA-Z] to represent a single letter.
+-	Examples include x, MyVar, my_var, and my_var3.
+
+Answer: “[_a-zA-Z][_a-zA-Z0-9]”
+
+4.	Write a regular expression for a floating-point number defined as follows:
+-	A sequence of digits followed by a . followed by a sequence of digits. 
+-	The sequence before the . may be empty and can only start with 0 if it is the only digit in the sequence. 
+-	The sequence after the . must contain at least one digit. 
+-	Examples include 0.5, 3.141592, 256.0, and .142857. 
+
+Answer: “[+-]?([0-9]*[.])?[0-9]+”
