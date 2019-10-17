@@ -1,0 +1,378 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\f0\fs22\lang9\par
+Mathematics 4670 Homework Three\par
+\par
+
+\pard\sa200\sl276\slmult1 1.\tab In the handout describing the simple method for finding interpolating polynomials I had a subroutine named createa with header\par
+subroutine createa(n, xdata, ydata, a)\par
+to find the coefficients using the recursive divided difference idea. Inside the subroutine create the two index table as we discussed in class and just before you return from the subroutine, save your results into the one dimensional array \i a\i0  (indexed zero to \i n\i0 ) and deallocate the two dimensional array. I want you to explain in full detail your thoughts, as detailed in the handout I gave you. If you present some source code with little or no discussion I'll award zero points. \par
+\ul CODE:\par
+
+\pard\sl240\slmult1\ulnone ! Mikayla Webber \par
+! 4670 Numerical Analysis\par
+! Homework Three Due 10/18/17\par
+\par
+module secret \tab\tab\tab\tab\tab\tab ! creates secret module\par
+\par
+integer :: fcounter\tab\tab\tab\tab\tab ! declares counter that could be put into \par
+\tab\tab\tab\tab\tab\tab\tab ! a do loop to count iterations\par
+end module secret \tab\tab\tab\tab\tab\par
+\par
+\par
+\par
+program WebberHomework3Question1\tab\tab\tab ! main program\par
+use secret\tab\tab\tab\tab\tab\tab ! use secret module\par
+implicit none\par
+\par
+integer :: i\par
+integer :: n\par
+double precision, allocatable, dimension(:) :: a\par
+double precision, allocatable, dimension(:) :: xdata\par
+double precision, allocatable, dimension(:) :: ydata\par
+\par
+n = 4\tab\tab\tab\tab\tab\tab\tab ! amount of xdata/ydata values - 1\par
+\par
+allocate(xdata(0:n), ydata(0:n), a(0:n))\par
+\par
+xdata = (/ 2.0d0, 4.0d0, 6.0d0, 5.0d0, 9.0d0 /) \tab\tab ! hardcoded test data\par
+ydata = (/ 12.0d0, 19.0d0, 14.0d0, 17.0d0, 10.0d0 /)\tab ! hardcoded test data\par
+\par
+print*, 'Newtons Divided Difference Coefficients: '\par
+\par
+call divdiff(n, xdata, ydata, a)\tab\tab\tab\tab ! calls the subroutine function\par
+\par
+do i = 0, n\par
+\tab print*, a(i)\tab\tab\tab\tab\tab ! do loop to print data\par
+end do\par
+\par
+deallocate(xdata, ydata, a)\tab\tab\tab\tab\par
+\par
+stop\par
+end program WebberHomework3Question1\tab\tab ! ends main program\par
+\par
+\par
+\par
+subroutine divdiff(n, xdata, ydata, a)\tab\tab\tab ! beginning of subroutine divdiff\par
+\tab\tab\tab\tab\tab\tab\tab ! with the variables n, xdata, ydata, a \par
+integer :: i\par
+integer :: j\par
+integer :: n\par
+double precision :: a(0:n)\par
+double precision :: xdata(0:n)\par
+double precision :: ydata(0:n)\par
+double precision, allocatable, dimension(:,:) :: T\par
+\par
+allocate (T(0:n,0:n))\par
+\par
+do i = 0, n\par
+\tab T(i,0) = ydata(i)\tab\tab\tab\tab\par
+end do\par
+\par
+a(0) = ydata(0)\par
+\par
+do i = 1, n\par
+\tab do j = 1, n\par
+\tab\tab T(i,j) = ((T(i,(j - 1)) - T((i - 1),(j - 1))) / (xdata(i) - xdata(i - j)))\par
+\tab\tab if (i == j) then\par
+\tab\tab\tab a(i) = T(i,j)\par
+\tab\tab end if\par
+\tab end do\par
+end do\par
+\par
+deallocate(T)\par
+\par
+end subroutine divdiff\tab\tab\tab\tab\tab ! ends the subroutine\par
+
+\pard\sa200\sl276\slmult1\par
+\ul CODE RUN RESULTS (for hardcoded test data):\par
+\ulnone Newtons Divided Difference Coefficients:\par
+12.0000000000\par
+3.50000000000\par
+-1.5000000000\par
+0.33333333333\par
+-2.142857142857E-02\par
+\par
+\ul CODE ALTERNATIVE (This one has two files and allows you to change the values in the readTable.txt and output the results to resultsTable.txt)\ulnone\par
+
+\pard\sl240\slmult1 ! Mikayla Webber \par
+! 4670 Numerical Analysis\par
+! Homework Three Due 10/18/17\par
+\par
+module secret \tab\tab\tab\tab\tab\tab ! creates secret module\par
+\par
+integer :: fcounter\tab\tab\tab\tab\tab ! creates counter which could track\par
+\tab\tab\tab\tab\tab\tab\tab ! iterations through a do loop\par
+end module secret \tab\tab\tab\tab\tab\par
+\par
+\par
+\par
+program WebberHomework3Question1\tab\tab\tab ! main program\par
+use secret\tab\tab\tab\tab\tab\tab ! uses secret module\par
+implicit none\par
+\par
+integer :: i\par
+integer :: n\par
+double precision, allocatable, dimension(:) :: a\par
+double precision, allocatable, dimension(:) :: xdata\par
+double precision, allocatable, dimension(:) :: ydata\par
+\par
+n = 10\tab\tab\tab\tab\tab\tab\tab\par
+\par
+open(unit=8, file='readTable.txt', status='old')\tab\tab ! opens a text file to read data from\par
+open(unit=9, file='resultTable.txt', status='replace')\tab ! creates/rewrites text file with the \par
+\tab\tab\tab\tab\tab\tab\tab ! results\par
+read(8,*)\tab n\tab\tab\tab\tab\tab  \par
+write(9,*) \tab n\tab\tab\tab\tab\tab\par
+\par
+allocate(xdata(0:n), ydata(0:n), a(0:n))\par
+\par
+do i = 0, n\par
+\tab read(8,*) xdata(i), ydata(i)\tab\tab\tab ! reads data from file\par
+\tab write(9,*) xdata(i), ydata(i)\tab\tab\tab ! writes data to file\par
+\tab fcounter = (fcounter + 1)\tab\tab\tab ! increase the counter\par
+end do\par
+\par
+print*,'This program was ran this many times: ', fcounter\par
+\par
+print*, 'Newtons Divided Difference Coefficients: '\par
+\par
+call divdiff(n, xdata, ydata, a)\par
+\par
+do i = 0, n\par
+\tab print*, a(i)\par
+end do\par
+\par
+deallocate(xdata, ydata, a)\par
+\par
+close(8)\tab\tab\tab\tab\tab\tab\tab ! closes read file\par
+close(9)\tab\tab\tab\tab\tab\tab\tab ! closes write file\par
+\par
+stop\par
+end program WebberHomework3Question1\par
+\par
+\par
+\par
+subroutine divdiff(n, xdata, ydata, a)\tab\tab\tab ! creates subroutine function with \par
+\tab\tab\tab\tab\tab\tab\tab ! variables n, xdata, ydata, and a\par
+integer :: i\par
+integer :: j\par
+integer :: n\par
+double precision :: a(0:n)\par
+double precision :: xdata(0:n)\par
+double precision :: ydata(0:n)\par
+double precision, allocatable, dimension(:,:) :: T\par
+\par
+allocate (T(0:n,0:n))\par
+\par
+do i = 0, n\par
+\tab T(i,0) = ydata(i)\par
+end do\par
+\par
+a(0) = ydata(0)\par
+\par
+do i = 1, n\par
+\tab do j = 1, n\par
+\tab\tab T(i,j) = ((T(i,(j - 1)) - T((i - 1),(j - 1))) / (xdata(i) - xdata(i - j)))\par
+\tab\tab if (i == j) then\par
+\tab\tab\tab a(i) = T(i,j)\par
+\tab\tab end if\par
+\tab end do\par
+end do\par
+\par
+deallocate(T)\par
+\par
+end subroutine divdiff\par
+\par
+\ul DISCUSSION: \par
+\ulnone\tab When I originally read the problem I had the idea of opening a file to input the data and then creating another file to output the results into. That way if the data needs to be changed it will be easier to do and there would be less of a chance of the code that is doing the calculations being disturbed. This is what the "Code Alternative" above includes. This alternative code is the same in every aspect to the original code posted above except for a few added changes. In the alternative code there is a counter incrementing in one of the do loops to keep track of iterations and also prints the number of iterations to the user. It also opens the readTable.txt file for data input and creates (or writes over) the resultsTable.txt with the results. After it opens the files there is also a loop which goes through the readTable file to get the data and writes the results to the resultsTable.txt file. There are also two additional lines closing the files.\par
+\tab After creating the version with the files, I re-read the instructions and decided to make the code above the alternative since it more closely reflects the instructions. Here is where I will describe the steps that the program is going through. \par
+\tab The program begins by creating a secret module, like the one discussed during class, which helps encapsulate the definitions and it creates the integer fcounter which will count the iterations in the main program. After the secret module the main program begins (called WebberHomework3Question1) and it uses the module secret. In the main there are two integers declared and three allocatable dimensions (of the type double precision). One of the integers, \i n\i0 , will be set to the amount of \i xdata \i0 and \i ydata \i0 values minus one. For example, if you had five \i xdata \i0 values and 5 \i ydata \i0 values then you would set \i n\i0  to 4. The next line in the program allocates memory for the \i xdata\i0 , \i ydata\i0 , and \i a\i0  all with the bounds of zero to \i n\i0 . The next two lines are the hardcoded data for the \i xdata\i0  and \i ydata\i0  where you would insert the data (for example: \i x \i0 for \i xdata\i0  and \i f(x)\i0  for \i ydata\i0 ). The ".0d0" endings are not necessary but provide extra reassurance that the data will be used correctly. The calculations for the divided difference are done in the divdiff subroutine which is defined after the main program so to use it we need to have a call statement which is the "\i call divdiff(n, xdata, ydata, a)\i0 " and within the parenthesis is the data which is being passed to the subroutine function. Next is a do loop which will output the results for 0 to \i n\i0 . Afterwards, we deallocated the memory we allocated in the beginning and stop the program. \par
+\tab The subroutine is defined with the variables being passed it within the parenthesis. Within the subroutine there are three integers declared and three double precision variables within the bounds of 0 to \i n\i0 . There is also an allocatable two dimension variable T created. After declaring what will be used in the subroutine memory is allocated to the two dimension array T with the bounds of 0 to \i n\i0 . Next is a do loop that sets the \i ydata(i)\i0  to the first position of the T array. After the loop \i ydata(i)\i0  is set to \i a. \i0 The next do loop has a nested do loop within it. Both loops go from one to \i n\i0 . The inside loop formula is: \i T( i, j which is decremented with each run through the second loop) - T (i which is decremented with each run through the first loop, j which is decremented with each run through the second loop) divided by the i in xdata minus (i-j) which is held in the xdata.\i0  However, if the \i i\i0  value is the same as the \i j\i0  value then the \i i \i0 value in \i a\i0  is set as both the \i i \i0 and \i j\i0  value held in \i T\i0 . The two dimensional array T is then deallocated and the subroutine is ended.\par
+\par
+
+\pard\sa200\sl276\slmult1 2.\tab Write a program using the subroutine from problem one to reproduce table 3.9 from the text book. Provide your driver program and the output. You've already fully described subroutine divdiff so you don't need to show it again. \par
+\ul CODE:\par
+
+\pard\sl240\slmult1\ulnone ! Mikayla Webber \par
+! 4670 Numerical Analysis\par
+! Homework Three Due 10/18/17\par
+\par
+module secret \tab\tab\tab\tab\tab\tab ! creates secret module\par
+\par
+integer :: fcounter\tab\tab\tab\tab\tab ! declares counter that could be put into \par
+\tab\tab\tab\tab\tab\tab\tab ! a do loop to count iterations\par
+end module secret \tab\tab\tab\tab\tab\par
+\par
+\par
+\par
+program WebberHomework3Question2\tab\tab\tab ! main program\par
+use secret\tab\tab\tab\tab\tab\tab ! use secret module\par
+implicit none\par
+\par
+integer :: i\par
+integer :: n\par
+double precision, allocatable, dimension(:) :: a\par
+double precision, allocatable, dimension(:) :: xdata\par
+double precision, allocatable, dimension(:) :: ydata\par
+\par
+n = 4\tab\tab\tab\tab\tab\tab\tab ! amount of xdata/ydata values - 1\par
+\par
+allocate(xdata(0:n), ydata(0:n), a(0:n))\par
+\par
+xdata = (/ 1.0d0, 1.3d0, 1.6d0, 1.9d0, 2.2d0 /) \tab\tab ! hardcoded test data\par
+ydata = (/ 0.7651977d0, 0.6200860d0, 0.4554022d0, 0.2818186d0, 0.1103623d0 /)\tab\par
+\tab\tab\tab\tab\tab\tab\tab ! hardcoded test data\par
+print*, 'Newtons Divided Difference Coefficients: '\par
+\par
+call divdiff(n, xdata, ydata, a)\tab\tab\tab\tab ! calls the subroutine function\par
+\par
+do i = 0, n\par
+\tab print*, a(i)\tab\tab\tab\tab\tab ! do loop to print data\par
+end do\par
+\par
+deallocate(xdata, ydata, a)\tab\tab\tab\tab\par
+\par
+stop\par
+end program WebberHomework3Question2\tab\tab ! ends main program\par
+\par
+\par
+\par
+subroutine divdiff(n, xdata, ydata, a)\tab\tab\tab ! beginning of subroutine divdiff\par
+\tab\tab\tab\tab\tab\tab\tab ! with the variables n, xdata, ydata, a \par
+integer :: i\par
+integer :: j\par
+integer :: n\par
+double precision :: a(0:n)\par
+double precision :: xdata(0:n)\par
+double precision :: ydata(0:n)\par
+double precision, allocatable, dimension(:,:) :: T\par
+\par
+allocate (T(0:n,0:n))\par
+\par
+do i = 0, n\par
+\tab T(i,0) = ydata(i)\tab\tab\tab\tab\par
+end do\par
+\par
+a(0) = ydata(0)\par
+\par
+do i = 1, n\par
+\tab do j = 1, n\par
+\tab\tab T(i,j) = ((T(i,(j - 1)) - T((i - 1),(j - 1))) / (xdata(i) - xdata(i - j)))\par
+\tab\tab if (i == j) then\par
+\tab\tab\tab a(i) = T(i,j)\par
+\tab\tab end if\par
+\tab end do\par
+end do\par
+\par
+deallocate(T)\par
+\par
+end subroutine divdiff\tab\tab\tab\tab\tab ! ends the subroutine\par
+
+\pard\sa200\sl276\slmult1\par
+\ul CODE RUN RESULTS (for table 3.9 test data that was hardcoded):\par
+\ulnone  Newtons Divided Difference Coefficients:\par
+          0.765197700000\par
+         -0.483705666667\par
+         -0.108733888889\par
+        6.587839506173E-02\par
+        1.825102880660E-03\par
+3.\tab Use your subroutine to find the coefficients of the polynomial of smallest degree that interpolates the following data.\par
+
+\pard\sl276\slmult1 x\tab y\par
+1\tab -4\par
+2\tab -11\par
+3\tab -14\par
+4\tab -7\par
+5\tab 16\par
+
+\pard\sa200\sl276\slmult1\par
+\ul CODE:\ulnone\par
+
+\pard\sl240\slmult1 ! Mikayla Webber \par
+! 4670 Numerical Analysis\par
+! Homework Three Due 10/18/17\par
+\par
+module secret \tab\tab\tab\tab\tab\tab ! creates secret module\par
+\par
+integer :: fcounter\tab\tab\tab\tab\tab ! declares counter that could be put into \par
+\tab\tab\tab\tab\tab\tab\tab ! a do loop to count iterations\par
+end module secret \tab\tab\tab\tab\tab\par
+\par
+\par
+\par
+program WebberHomework3Question3\tab\tab\tab ! main program\par
+use secret\tab\tab\tab\tab\tab\tab ! use secret module\par
+implicit none\par
+\par
+integer :: i\par
+integer :: n\par
+double precision, allocatable, dimension(:) :: a\par
+double precision, allocatable, dimension(:) :: xdata\par
+double precision, allocatable, dimension(:) :: ydata\par
+\par
+n = 4\tab\tab\tab\tab\tab\tab\tab ! amount of xdata/ydata values - 1\par
+\par
+allocate(xdata(0:n), ydata(0:n), a(0:n))\par
+\par
+xdata = (/ 1.0d0, 2.0d0, 3.0d0, 4.0d0, 5.0d0 /) \tab\tab ! hardcoded test data\par
+ydata = (/ -4.0d0, -11.0d0, -14.0d0, -7.0d0, 16.0d0 /)\tab ! hardcoded test data\par
+\tab\tab\tab\tab\tab\tab\tab\par
+print*, 'Newtons Divided Difference Coefficients: '\par
+\par
+call divdiff(n, xdata, ydata, a)\tab\tab\tab\tab ! calls the subroutine function\par
+\par
+do i = 0, n\par
+\tab print*, a(i)\tab\tab\tab\tab\tab ! do loop to print data\par
+end do\par
+\par
+deallocate(xdata, ydata, a)\tab\tab\tab\tab\par
+\par
+stop\par
+end program WebberHomework3Question3\tab\tab ! ends main program\par
+\par
+\par
+\par
+subroutine divdiff(n, xdata, ydata, a)\tab\tab\tab ! beginning of subroutine divdiff\par
+\tab\tab\tab\tab\tab\tab\tab ! with the variables n, xdata, ydata, a \par
+integer :: i\par
+integer :: j\par
+integer :: n\par
+double precision :: a(0:n)\par
+double precision :: xdata(0:n)\par
+double precision :: ydata(0:n)\par
+double precision, allocatable, dimension(:,:) :: T\par
+\par
+allocate (T(0:n,0:n))\par
+\par
+do i = 0, n\par
+\tab T(i,0) = ydata(i)\tab\tab\tab\tab\par
+end do\par
+\par
+a(0) = ydata(0)\par
+\par
+do i = 1, n\par
+\tab do j = 1, n\par
+\tab\tab T(i,j) = ((T(i,(j - 1)) - T((i - 1),(j - 1))) / (xdata(i) - xdata(i - j)))\par
+\tab\tab if (i == j) then\par
+\tab\tab\tab a(i) = T(i,j)\par
+\tab\tab end if\par
+\tab end do\par
+end do\par
+\par
+deallocate(T)\par
+\par
+end subroutine divdiff\tab\tab\tab\tab\tab ! ends the subroutine\par
+
+\pard\sa200\sl276\slmult1\par
+\ul CODE RUN RESULTS:\par
+\ulnone  Newtons Divided Difference Coefficients:\par
+          -4.00000000000\par
+          -7.00000000000\par
+           2.00000000000\par
+           1.00000000000\par
+           0.00000000000\par
+4.\tab Suppose that you were calculaing divided differences as we have indicated, and all the divided differences in column number \i k\i0  were zero. What does that say about divided differences in later columns? What does that say about your data set?\par
+If you were calculating the divided differences and all of the divided differences in column \i k\i0  were zero this says that no matter what the \i f(x)\i0  value is the divided differences in the later columns would also be zero. This says that the data set is also equivalent to zero.\par
+}
+ 
