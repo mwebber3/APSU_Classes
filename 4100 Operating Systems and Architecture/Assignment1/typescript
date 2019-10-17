@@ -1,0 +1,94 @@
+Script started on Fri 01 Sep 2017 08:58:42 PM CDT
+]0;mwebber3@apmycs2:~[?1034h[mwebber3@apmycs2 ~]$ cat words1.txt words2.txt
+palindrome
+avocado
+tarantula
+nettle
+lemonade
+development
+avocado
+farthing
+palindrome
+tension
+avocado
+tarantula
+xylophone
+lemonade
+development
+avocado
+javelina
+godspeed
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ diff words1.txt words2.txt
+1a2
+> tension
+4c5
+< nettle
+---
+> xylophone
+8c9,10
+< farthing
+---
+> javelina
+> godspeed
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ sort words1.txt
+avocado
+avocado
+development
+farthing
+lemonade
+nettle
+palindrome
+tarantula
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ sort words2.txt
+avocado
+avocado
+development
+godspeed
+javelina
+lemonade
+palindrome
+tarantula
+tension
+xylophone
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ sort -u words1.txt
+avocado
+development
+farthing
+lemonade
+nettle
+palindrome
+tarantula
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ sort w -u words2.txt
+avocado
+development
+godspeed
+javelina
+lemonade
+palindrome
+tarantula
+tension
+xylophone
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ head -4 words1.txt
+palindrome
+avocado
+tarantula
+nettle
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ tail -4 words1.txt
+lemonade
+development
+avocado
+farthing
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ head -4 words1.txt | sort
+avocado
+nettle
+palindrome
+tarantula
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ sort words1.txt | head -4
+avocado
+avocado
+development
+farthing
+]0;mwebber3@apmycs2:~[mwebber3@apmycs2 ~]$ exit
+exit
+
+Script done on Fri 01 Sep 2017 09:01:25 PM CDT
