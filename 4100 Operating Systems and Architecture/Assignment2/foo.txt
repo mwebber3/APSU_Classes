@@ -1,0 +1,1 @@
+Here is some text to test the kitten.c program!
