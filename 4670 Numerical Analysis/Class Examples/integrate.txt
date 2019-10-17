@@ -1,0 +1,25 @@
+implicit none
+real :: x
+
+f = ?/x 		?=1.0?
+
+return 
+end
+
+real function right(n,a,b, fred)
+implicit none
+integer :: n, i
+real :: a,b,integrate,dx,xuse
+
+dx = (b - a)/float(n)
+
+right = 0.0?
+do i = 1,n
+	xuse = a + float(i) * dx
+	right = right + fred(xuse)
+end do
+
+right = right * dx
+
+return 
+end

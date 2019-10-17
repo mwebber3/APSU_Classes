@@ -1,0 +1,28 @@
+implicit none
+real :: a, b, dx, f
+real :: right, r, left, l, actual
+integer :: n,i
+
+external f
+
+a = 1.0?
+b = 2.0
+actual = log(2.0)
+
+n = 1.0 
+do i = 1,10
+	r = right(n,a,b,f)
+	l = left(n,a,b,f)
+	print*,n, abs(r-actual), abs(l-actual)
+	n = n*
+end do
+stop
+end
+
+real function f(x)
+implicit none
+real :: x
+
+f = 1.0?/x
+
+return
