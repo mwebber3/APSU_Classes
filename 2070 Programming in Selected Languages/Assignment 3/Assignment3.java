@@ -1,15 +1,15 @@
-package mikaylawebberassignment3;
+package assignment3;
 
 import java.util.Scanner;
 
 /**
- * Author: Mikayla Webber
+ * Author: Mikayla 
  * Due Date: February 1, 2018
  * Course: 2070-08 Programming in Selected Languages
  * Description: This program reads input and displays output for the total 
  * of a bill's cost, tax, and suggested tip totals
  */
-public class MikaylaWebberAssignment3 {
+public class Assignment3 {
 
     public static void main(String[] args) {
         String name;
