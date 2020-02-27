@@ -24,14 +24,14 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
- * @author Mikayla Webber
+ * @author Mikayla 
  * Due: April 4th, 2018
  * Course: 2070-08 Programming in Selected Languages
  * Description: This program uses JavaFX to solve a distance conversion problem. 
  * The user will enter a distance in meters and the radio buttons can be selected
  * to convert the meters to inches, feet, or yards. 
  */
-public class MikaylaWebberAssignment12 extends Application {
+public class Assignment12 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
