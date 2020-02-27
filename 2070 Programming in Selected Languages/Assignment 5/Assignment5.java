@@ -1,15 +1,15 @@
-package mikaylawebberassignment5;
+package assignment5;
 
 import javax.swing.JOptionPane;
 
 /**
- * Author: Mikayla Webber
+ * Author: Mikayla 
  * Due Date: February 1, 2018
  * Course: 2070-08 Programming in Selected Languages
  * Description: Computes and displays the average of three test scores using 
  * the JOptionPane dialog boxes
  */
-public class MikaylaWebberAssignment5 
+public class Assignment5 
 {
     public static void main(String[] args) 
     {
