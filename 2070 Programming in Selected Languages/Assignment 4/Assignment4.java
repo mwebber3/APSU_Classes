@@ -1,15 +1,15 @@
-package mikaylawebberassignment4;
+package assignment4;
 
 import java.util.Scanner;
 
 /**
- * Author: Mikayla Webber
+ * Author: Mikayla 
  * Due Date: February 1, 2018
  * Course: 2070-08 Programming in Selected Languages
  * Description: When given an amount of change determine the minimum amount of 
  * coins the person has in their pocket 
  */
-public class MikaylaWebberAssignment4 
+public class Assignment4 
 {
 
     public static void main(String[] args) 
